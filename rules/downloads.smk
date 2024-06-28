@@ -1,6 +1,6 @@
 ncbi_api_key = ""
 try:
-    with open("config/ncbi_api_key.txt", "r") as f:
+    with open("ncbi_api_key.txt", "r") as f:
         ncbi_api_key = f.read().strip()
 except:
     print("No NCBI API key found. Save your key in config/ncbi_api_key.txt")

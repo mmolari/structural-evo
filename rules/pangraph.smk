@@ -4,7 +4,7 @@ rule PG_build:
     output:
         "results/{dset}/pangraph/unpolished_graph.json",
     params:
-        opt=lambda w: config["datasets"][w.dset]["pang-build-opt"],
+        opt=config["pangraph"]["build-opt"],
     shell:
         """
         export JULIA_NUM_THREADS=8
@@ -18,7 +18,7 @@ rule PG_polish:
     output:
         "results/{dset}/pangraph/graph.json",
     params:
-        opt=config["pangraph"]["polish-options"],
+        opt=config["pangraph"]["polish-opt"],
     conda:
         "../conda_env/pangraph.yml"
     shell:
