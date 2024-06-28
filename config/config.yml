@@ -4,7 +4,6 @@ datasets:
     excluded: "config/datasets/saureus_S1/excluded.txt"
     guide-strain: "NZ_CP019574.1"
     pang-build-opt: "--circular -k minimap2 -s 20 -a 100 -b 5 -l 100"
-
 pangraph:
   polish-options: "-c"
 

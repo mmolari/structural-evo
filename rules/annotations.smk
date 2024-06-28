@@ -273,12 +273,12 @@ rule AN_assign_positions:
 
 rule AN_all:
     input:
-        expand(rules.GM_summary.output, dset="ST131_ABC"),
-        expand(rules.IF_summary.output, dset="ST131_ABC"),
-        expand(rules.Dfinder_summary.output, dset="ST131_ABC"),
+        expand(rules.GM_summary.output, dset=dset_names),
+        expand(rules.IF_summary.output, dset=dset_names),
+        expand(rules.Dfinder_summary.output, dset=dset_names),
         expand(
             rules.AN_assign_positions.output,
-            dset="ST131_ABC",
+            dset=dset_names,
             tool=["ISEScan", "genomad", "integronfinder", "defensefinder"],
             K=["rand", "real"],
         ),

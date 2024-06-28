@@ -97,21 +97,21 @@ rule FG_coresynt:
         """
 
 
-# rule FG_junctions_survey:
-#     input:
-#         df=rules.BJ_extract_joints_df.output.dfl,
-#     output:
-#         directory("figs/{dset}/{opt}/junctions_survey"),
-#     params:
-#         len_thr=config["backbone-joints"]["len-thr"],
-#     conda:
-#         "../conda_env/bioinfo.yml"
-#     shell:
-#         """
-#         python3 scripts/backbone_joints/fig_junctions_survey.py \
-#             --joints_df {input.df} \
-#             --fig_fld {output}
-#         """
+rule FG_junctions_survey:
+    input:
+        df=rules.BJ_extract_joints_df.output.dfl,
+    output:
+        directory("figs/{dset}/junctions_survey"),
+    params:
+        len_thr=config["backbone-joints"]["len-thr"],
+    conda:
+        "../conda_env/bioinfo.yml"
+    shell:
+        """
+        python3 scripts/backbone_joints/fig_junctions_survey.py \
+            --joints_df {input.df} \
+            --fig_fld {output}
+        """
 
 
 rule FG_all:
@@ -121,4 +121,4 @@ rule FG_all:
         expand(rules.FG_block_distr_fig.output, dset=dset_names),
         expand(rules.FG_distances.output, dset=dset_names),
         expand(rules.FG_coresynt.output, dset=dset_names),
-        # expand(rules.FG_junctions_survey.output, dset=dset_names),
+        expand(rules.FG_junctions_survey.output, dset=dset_names),
