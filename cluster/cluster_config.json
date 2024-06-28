@@ -1,0 +1,50 @@
+{
+    "__default__": {
+        "time": "00:29:00",
+        "qos": "30min",
+        "n": 1,
+        "mem": "4G"
+    },
+    "PG_build": {
+        "time": "05:50:00",
+        "qos": "6hours",
+        "n": 8,
+        "mem": "30G"
+    },
+    "PG_polish": {
+        "time": "05:50:00",
+        "qos": "6hours",
+        "n": 8,
+        "mem": "30G"
+    },
+    "PG_export": {
+        "time": "00:29:00",
+        "qos": "30min",
+        "n": 1,
+        "mem": "10G"
+    },
+    "BJ_pangraph": {
+        "time": "02:00:00",
+        "qos": "6hours",
+        "n": 4,
+        "mem": "10G"
+    },
+    "GM_run": {
+        "time": "00:29:00",
+        "qos": "30min",
+        "n": 4,
+        "mem": "30G"
+    },
+    "ISEScan_run": {
+        "time": "00:29:00",
+        "qos": "30min",
+        "n": 6,
+        "mem": "4G"
+    },
+    "PX_run": {
+        "time": "05:50:00",
+        "qos": "6hours",
+        "n": 10,
+        "mem": "40G"
+    }
+}

@@ -1,0 +1,7 @@
+/data
+/config/ncbi_api_key.txt
+/.snakemake
+/results
+/log
+/figs
+__pycache__
