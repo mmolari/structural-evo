@@ -53,3 +53,4 @@ include: "rules/figs.smk"
 localrules:
     download_gbk,
     Dfinder_models_download,
+    GM_download_db,
