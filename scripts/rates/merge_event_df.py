@@ -2,6 +2,7 @@
 import pandas as pd
 import numpy as np
 import argparse
+import utils as ut
 
 
 def parse_args():
@@ -13,31 +14,6 @@ def parse_args():
     return parser.parse_args()
 
 
-def assign_mge_category(df):
-    df["cat"] = "none"
-    for key, lab in [
-            ("isescan", "IS"),
-            ("defensefinder", "defense"),
-            ("genomad", "prophage"),
-            ("integrons", "integron"),
-        ]:
-        mask = df[key] > 0
-        df.loc[mask, "cat"] = lab
-
-    # check that no "NaN" is left
-    no_cat = df["cat"].isna()
-    assert no_cat.sum() == 0, f"some categories are not assigned:\n{df[no_cat]}"
-
-    # make ordered categorical variable
-    df["cat"] = pd.Categorical(
-        df["cat"],
-        categories=["IS", "integron", "prophage", "defense", "none"],
-        ordered=True,
-    )
-
-    return df
-
-
 if __name__ == "__main__":
     args = parse_args()
 
@@ -45,8 +21,8 @@ if __name__ == "__main__":
     idf = pd.read_csv(args.internal_df, index_col=0)
     bdf = pd.read_csv(args.branch_df, index_col=0)
 
-    tdf = assign_mge_category(tdf)
-    idf = assign_mge_category(idf)
+    tdf = ut.assign_mge_category(tdf)
+    idf = ut.assign_mge_category(idf)
 
     terminals = bdf[bdf["terminal"]].index.to_list()
 

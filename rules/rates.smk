@@ -168,7 +168,35 @@ rule FG_junctions_ann:
         """
 
 
+rule FG_rates:
+    input:
+        csdf=rules.RT_coldspot_df.output.df,
+        ev=rules.RT_events_df.output.df,
+        tjdf=rules.RT_terminal_coldspots.output.cdf,
+        ijdf=rules.RT_internal_coldspots_mugration.output.jdf,
+        tbdf=rules.RT_terminal_coldspots.output.edf,
+        ibdf=rules.RT_internal_coldspots_mugration.output.bdf,
+        alni=rules.PG_filtered_corealignment.output.info_size,
+    output:
+        ff=directory("figs/{dset}/rates"),
+    conda:
+        "../conda_env/bioinfo.yml"
+    shell:
+        """
+        python3 scripts/rates/rates_figs.py \
+            --coldspots_df {input.csdf} \
+            --events_df {input.ev} \
+            --terminal_j_df {input.tjdf} \
+            --internal_j_df {input.ijdf} \
+            --terminal_b_df {input.tbdf} \
+            --internal_b_df {input.ibdf} \
+            --alignment_info {input.alni} \
+            --out_fld {output.ff}
+        """
+
+
 rule RT_all:
     input:
         expand(rules.RT_events_df.output, dset=dset_names),
         expand(rules.FG_junctions_ann.output, dset=dset_names),
+        expand(rules.FG_rates.output, dset=dset_names),

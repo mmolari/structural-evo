@@ -2,6 +2,7 @@ from collections import defaultdict, Counter
 import pathlib
 import itertools as itt
 from Bio import Phylo
+import pandas as pd
 
 
 class Node:
@@ -378,3 +379,28 @@ def parse_nexus(fname):
 
     info = {"pa": pa_pattern, "events": events}
     return info
+
+
+def assign_mge_category(df):
+    df["cat"] = "none"
+    for key, lab in [
+            ("isescan", "IS"),
+            ("defensefinder", "defense"),
+            ("genomad", "prophage"),
+            ("integrons", "integron"),
+        ]:
+        mask = df[key] > 0
+        df.loc[mask, "cat"] = lab
+
+    # check that no "NaN" is left
+    no_cat = df["cat"].isna()
+    assert no_cat.sum() == 0, f"some categories are not assigned:\n{df[no_cat]}"
+
+    # make ordered categorical variable
+    df["cat"] = pd.Categorical(
+        df["cat"],
+        categories=["IS", "integron", "prophage", "defense", "none"],
+        ordered=True,
+    )
+
+    return df
