@@ -1,6 +1,7 @@
 import json
 import treetime
 import argparse
+import pathlib
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -20,9 +21,7 @@ def parse_args():
     parser.add_argument("--filt_tree", type=str)
     parser.add_argument("--filt_aln", type=str)
     parser.add_argument("--filt_aln_info", type=str)
-    parser.add_argument("--hist_fig", type=str)
-    parser.add_argument("--tree_fig", type=str)
-    parser.add_argument("--homoplasies_fig", type=str)
+    parser.add_argument("--out_fld", type=str)
     return parser.parse_args()
 
 
@@ -112,7 +111,7 @@ def mut_df(res_b, res_a):
     return df
 
 
-def fig_hist(df, svname):
+def fig_hist(df, fig_fld):
     g = sns.FacetGrid(
         data=df,
         col="aln",
@@ -127,7 +126,7 @@ def fig_hist(df, svname):
         sns.histplot,
         x="position",
         element="step",
-        binwidth=100,
+        bins=50,
         hue="multimut",
         hue_order=[False, True],
     )
@@ -151,15 +150,19 @@ def fig_hist(df, svname):
 
     g.map_dataframe(add_multiallelic_frac)
     plt.tight_layout()
-    plt.savefig(svname)
+    plt.savefig(fig_fld / "hist.pdf")
     plt.close()
 
 
-def fig_homoplasies(df, res_a, svname):
+def fig_homoplasies(df, res_a, fig_fld):
     mask = df["aln"] == "filtered"
     mask &= df["phylogenetic info"] == "bi-allelic"
     mask &= df["multimut"]
     I = df[mask]["position"].to_numpy()
+
+    if len(I) == 0:
+        print(f"I is empty for {res_a=}")
+        return
 
     def is_cons(row):
         vals, cts = np.unique(row, return_counts=True)
@@ -207,11 +210,11 @@ def fig_homoplasies(df, res_a, svname):
         ax.grid(which="minor", alpha=0.3)
 
     plt.tight_layout()
-    plt.savefig(svname)
+    plt.savefig(fig_fld / "homoplasies.pdf")
     plt.close()
 
 
-def fig_tree(df, res_a, svname):
+def fig_tree(df, res_a, fig_fld):
     # color supported branches
     mask = (df["aln"] == "filtered") & (df["phylogenetic info"] == "bi-allelic")
     mask &= ~df["multimut"]
@@ -244,12 +247,15 @@ def fig_tree(df, res_a, svname):
     )
     sns.despine()
     plt.tight_layout()
-    plt.savefig(svname)
+    plt.savefig(fig_fld / "tree.pdf")
     plt.close()
 
 
 if __name__ == "__main__":
     args = parse_args()
+
+    fig_fld = pathlib.Path(args.out_fld)
+    fig_fld.mkdir(exist_ok=True, parents=True)
 
     # load results before filtering
     with open(args.aln_info, "r") as f:
@@ -277,10 +283,10 @@ if __name__ == "__main__":
     df = mut_df(res_b, res_a)
 
     # fig 1: histogram
-    fig_hist(df, args.hist_fig)
+    fig_hist(df, fig_fld)
 
     # fig 2: homoplasies
-    fig_homoplasies(df, res_a, args.homoplasies_fig)
+    fig_homoplasies(df, res_a, fig_fld)
 
     # fig 3: tree
-    fig_tree(df, res_a, args.tree_fig)
+    fig_tree(df, res_a, fig_fld)

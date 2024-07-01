@@ -26,9 +26,7 @@ rule FG_homoplasies:
         filt_aln=rules.PG_filtered_corealignment.output.fa,
         filt_aln_info=rules.PG_filtered_corealignment.output.info_size,
     output:
-        hist_fig="figs/{dset}/homoplasies/hist.pdf",
-        tree_fig="figs/{dset}/homoplasies/tree.pdf",
-        homoplasies_fig="figs/{dset}/homoplasies/homoplasies.pdf",
+        out_fld=directory("figs/{dset}/homoplasies"),
     conda:
         "../conda_env/tree_inference.yml"
     shell:
@@ -40,9 +38,7 @@ rule FG_homoplasies:
             --filt_tree {input.filt_tree} \
             --filt_aln {input.filt_aln} \
             --filt_aln_info {input.filt_aln_info} \
-            --hist_fig {output.hist_fig} \
-            --tree_fig {output.tree_fig} \
-            --homoplasies_fig {output.homoplasies_fig}
+            --out_fld {output.out_fld}
         """
 
 
