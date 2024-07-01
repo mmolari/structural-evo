@@ -181,7 +181,6 @@ def fig_n_paths(df, fig_fld):
 
     ax.set_ylabel("cumulative sum")
     ax.set_xlabel("n. path categories - 1")
-    ax.set_xlim(right=150)
     sns.despine()
     plt.tight_layout()
     plt.savefig(fig_fld / "cumulative_categories.pdf")
@@ -198,5 +197,6 @@ if __name__ == "__main__":
     fig_fld = pathlib.Path(args.out_fld)
     fig_fld.mkdir(exist_ok=True, parents=True)
 
+    fig_occ_freq(df, fig_fld)
     fig_j_scatter(df, fig_fld)
     fig_n_paths(df, fig_fld)
