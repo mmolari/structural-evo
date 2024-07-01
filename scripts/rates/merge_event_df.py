@@ -14,21 +14,15 @@ def parse_args():
 
 
 def assign_mge_category(df):
-    df["cat"] = None
-    keys = ["genomad", "integrons", "isescan", "defensefinder"]
-    F, T = False, True
-    for val, k in [
-        ((F, F, T, F), "IS"),
-        ((F, F, F, F), "none"),
-        ((T, F, T, F), "prophage"),
-        ((T, F, F, F), "prophage"),
-        ((F, T, T, T), "integron"),
-        ((F, F, T, T), "defense"),
-        ((T, F, F, T), "prophage"),
-        ((F, T, T, F), "integron"),
-    ]:
-        mask = np.all((df[keys] > 0) == val, axis=1)
-        df.loc[mask, "cat"] = k
+    df["cat"] = "none"
+    for key, lab in [
+            ("isescan", "IS"),
+            ("defensefinder", "defense"),
+            ("genomad", "prophage"),
+            ("integrons", "integron"),
+        ]:
+        mask = df[key] > 0
+        df.loc[mask, "cat"] = lab
 
     # check that no "NaN" is left
     no_cat = df["cat"].isna()
