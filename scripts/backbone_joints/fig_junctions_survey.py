@@ -80,8 +80,11 @@ def plot_accessory_vs_core(df_acc, df_core, svname):
 
 
 def plot_offbackbone_PA(dfa, svname):
-    consensus = jdf_acc.isna().mode().T[0]
-    iso_mask = (consensus == jdf_acc.isna()).all(axis=1)
+    modes = dfa.isna().mode().T
+    if len(modes) == 0:
+        return
+    consensus = modes[0]
+    iso_mask = (consensus == dfa.isna()).all(axis=1)
     sdf = dfa.loc[~iso_mask].notna()
     order = sdf.sum(axis=0).sort_values(ascending=False).index
     sdf = sdf[order]
@@ -205,12 +208,13 @@ if __name__ == "__main__":
 
     svname = fig_fld / "acc_vs_core_len.pdf"
     plot_accessory_vs_core(jdf_acc, jdf_core, svname)
+    
+    if len(jdf_acc.isna().mode().T) > 0:
+        svname = fig_fld / "offbackbone_PA.pdf"
+        plot_offbackbone_PA(jdf_acc, svname)
 
-    svname = fig_fld / "offbackbone_PA.pdf"
-    plot_offbackbone_PA(jdf_acc, svname)
+        svname = fig_fld / "offbackbone_imputation.pdf"
+        plot_impute_accessory(jdf_acc, svname)
 
-    svname = fig_fld / "offbackbone_imputation.pdf"
-    plot_impute_accessory(jdf_acc, svname)
-
-    svname = fig_fld / "offbackbone_frequency.pdf"
-    plot_offbackbone_frequency(jdf_acc, svname)
+        svname = fig_fld / "offbackbone_frequency.pdf"
+        plot_offbackbone_frequency(jdf_acc, svname)

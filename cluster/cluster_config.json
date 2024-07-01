@@ -12,8 +12,8 @@
         "mem": "30G"
     },
     "PG_polish": {
-        "time": "05:50:00",
-        "qos": "6hours",
+        "time": "23:50:00",
+        "qos": "1day",
         "n": 8,
         "mem": "30G"
     },
@@ -36,10 +36,10 @@
         "mem": "30G"
     },
     "ISEScan_run": {
-        "time": "00:29:00",
-        "qos": "30min",
+        "time": "05:50:00",
+        "qos": "6hours",
         "n": 6,
-        "mem": "4G"
+        "mem": "20G"
     },
     "PX_run": {
         "time": "05:50:00",

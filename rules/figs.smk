@@ -114,6 +114,23 @@ rule FG_junctions_survey:
         """
 
 
+rule FG_junctions_stats:
+    input:
+        jdf=rules.BJ_junct_stats.output.stats,
+        epg=rules.BJ_extract_pangenome_info.output.info,
+    output:
+        ff=directory("figs/{dset}/junctions_stats/"),
+    conda:
+        "../conda_env/bioinfo.yml"
+    shell:
+        """
+        python3 scripts/figs/junctions_simple.py \
+            --junctions_stats {input.jdf} \
+            --edge_pangenome {input.epg} \
+            --out_fld {output.ff}
+        """
+
+
 rule FG_all:
     input:
         expand(rules.FG_homoplasies.output, dset=dset_names),
@@ -122,3 +139,4 @@ rule FG_all:
         expand(rules.FG_distances.output, dset=dset_names),
         expand(rules.FG_coresynt.output, dset=dset_names),
         expand(rules.FG_junctions_survey.output, dset=dset_names),
+        expand(rules.FG_junctions_stats.output, dset=dset_names),

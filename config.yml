@@ -7,8 +7,6 @@ datasets:
     guide-strain: "NZ_CP051263.1"
   ecoli_ST95:
     guide-strain: "NZ_CP043950.1"
-  kpneumoniae_ST11:
-    guide-strain: "NZ_CP023722.1"
   kpneumoniae_ST14:
     guide-strain: "NZ_CP115707.1"
   kpneumoniae_ST15:
