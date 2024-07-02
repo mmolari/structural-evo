@@ -235,6 +235,6 @@ if __name__ == "__main__":
                     "j_strand": strand,
                 }
             )
-
-    results = pd.DataFrame(results)
+    columns= ["id","junction","iso","in_core","in_acc","ib","ie","jcb","jce","jab","jae","j_strand"]
+    results = pd.DataFrame(results, columns=columns)
     results.to_csv(args.output_pos, index=False)

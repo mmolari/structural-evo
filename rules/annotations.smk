@@ -87,13 +87,27 @@ rule IF_summary:
     output:
         i_summ="results/{dset}/annotations/integron_finder/integron_summary.tsv",
         i_ann="results/{dset}/annotations/integron_finder/integron_annotations.tsv",
+    params:
+        h_ann="ID_integron\tID_replicon\telement\tpos_beg\tpos_end\tstrand\tevalue\ttype_elt\tannotation\tmodel\ttype\tdefault\tdistance_2attC\tconsidered_topology",
+        h_summ="ID_replicon\tCALIN\tcomplete\tIn0\ttopology\tsize",
     conda:
         "../conda_env/bioinfo.yml"
     shell:
         """
-        cat {input.S} | grep -v '^#' | tsv-uniq > {output.i_summ}
-        cat {input.I} | grep -v '^#' | tsv-uniq > {output.i_ann}
+        if grep -v '^#' {input.S} | grep -q '.'; then
+            grep -v '^#' {input.S} | tsv-uniq > {output.i_summ}
+        else
+            echo -e "{params.h_summ}" > {output.i_summ}
+        fi
+
+        if grep -v '^#' {input.I} | grep -q '.'; then
+            grep -v '^#' {input.I} | tsv-uniq > {output.i_ann}
+        else
+            echo -e "{params.h_ann}" > {output.i_ann}
+        fi
         """
+
+        
 
 
 rule IF_preformat:
