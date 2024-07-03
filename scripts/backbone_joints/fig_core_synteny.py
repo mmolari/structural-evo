@@ -209,7 +209,6 @@ def fig_tree(tree, iso_color, svname):
     sns.despine()
     ax.set_xlabel("")
     ax.set_ylabel("")
-    ax.set_xticks([0, 5e-5, 1e-4])
     plt.tight_layout()
     plt.savefig(str(svname) + ".pdf")
     plt.savefig(str(svname) + ".svg")
