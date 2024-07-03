@@ -36,9 +36,9 @@
         "mem": "30G"
     },
     "ISEScan_run": {
-        "time": "05:50:00",
-        "qos": "6hours",
-        "n": 6,
+        "time": "23:50:00",
+        "qos": "1day",
+        "n": 1,
         "mem": "40G"
     },
     "PX_run": {

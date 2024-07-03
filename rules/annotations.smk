@@ -94,14 +94,14 @@ rule IF_summary:
         "../conda_env/bioinfo.yml"
     shell:
         """
-        if grep -v '^#' {input.S} | grep -q '.'; then
-            grep -v '^#' {input.S} | tsv-uniq > {output.i_summ}
+        if cat {input.S} | grep -v '^#' | grep -q '.'; then
+            cat {input.S} | grep -v '^#' | tsv-uniq > {output.i_summ}
         else
             echo -e "{params.h_summ}" > {output.i_summ}
         fi
 
-        if grep -v '^#' {input.I} | grep -q '.'; then
-            grep -v '^#' {input.I} | tsv-uniq > {output.i_ann}
+        if cat {input.I} | grep -v '^#' | grep -q '.'; then
+            cat {input.I} | grep -v '^#' | tsv-uniq > {output.i_ann}
         else
             echo -e "{params.h_ann}" > {output.i_ann}
         fi
@@ -135,7 +135,7 @@ rule ISEScan_run:
         "../conda_env/isescan.yml"
     shell:
         """
-        isescan.py --seqfile {input.fa} --output {output.d} --nthread 6
+        isescan.py --seqfile {input.fa} --output {output.d} --nthread 1
         """
 
 
