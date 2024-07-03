@@ -7,6 +7,7 @@ from Bio import Phylo
 from collections import defaultdict
 import argparse
 import pathlib
+import pandas as pd
 import utils as ut
 
 
@@ -54,6 +55,8 @@ def parse_args():
     parser.add_argument("--tree", type=str, required=True)
     parser.add_argument("--len_thr", type=int, required=True)
     parser.add_argument("--fig_fld", type=str, required=True)
+    parser.add_argument("--mergers", type=str, required=True)
+    parser.add_argument("--block_colors", type=str, required=True)
     return parser.parse_args()
 
 
@@ -178,7 +181,6 @@ def fig_syntey(path_cats, common_path, strand_common, bdf, svname):
 
     plt.tight_layout()
     plt.savefig(str(svname) + ".pdf")
-    plt.savefig(str(svname) + ".svg")
     plt.close(fig)
     return iso_color, block_colors
 
@@ -211,7 +213,6 @@ def fig_tree(tree, iso_color, svname):
     ax.set_ylabel("")
     plt.tight_layout()
     plt.savefig(str(svname) + ".pdf")
-    plt.savefig(str(svname) + ".svg")
     plt.close()
 
 
@@ -236,7 +237,6 @@ def fig_blocks(common_path, bdf, block_colors, svname):
     # ax.grid(which="minor", axis="y", alpha=0.3)
     plt.tight_layout()
     plt.savefig(str(svname) + ".pdf")
-    plt.savefig(str(svname) + ".svg")
     plt.close()
 
 
@@ -303,3 +303,10 @@ if __name__ == "__main__":
 
     # block lengths figure
     fig_blocks(common_path, bdf, block_colors, svfig_blocks)
+
+    # save results
+    bdf["color"] = bdf.index.map(lambda x: mpl.colors.to_hex(block_colors[x]))
+    bdf.to_csv(args.block_colors)
+
+    mg = pd.Series(mg)
+    mg.to_csv(args.mergers)
