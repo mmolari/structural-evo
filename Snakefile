@@ -49,6 +49,18 @@ include: "rules/annotations.smk"
 include: "rules/rates.smk"
 include: "rules/figs.smk"
 
+rule all:
+    input:
+        expand(rules.FG_homoplasies.output, dset=dset_names),
+        expand(rules.FG_recombination_filter.output, dset=dset_names),
+        expand(rules.FG_block_distr_fig.output, dset=dset_names),
+        expand(rules.FG_distances.output, dset=dset_names),
+        expand(rules.FG_coresynt.output, dset=dset_names),
+        expand(rules.FG_circle_synteny.output, dset=dset_names),
+        expand(rules.FG_junctions_survey.output, dset=dset_names),
+        expand(rules.FG_junctions_overview.output, dset=dset_names),
+        expand(rules.FG_junctions_ann.output, dset=dset_names),
+        expand(rules.FG_rates.output, dset=dset_names),
 
 localrules:
     download_gbk,

@@ -23,7 +23,12 @@ datasets:
     guide-strain: "NZ_CP019574.1"
   saureus_ST5:
     guide-strain: "NC_002758.2"
-
+  paeruginosa_ST235:
+    guide-strain: "NC_017549.1"
+  paeruginosa_ST111:
+    guide-strain: "NZ_CP086213.1"
+  paeruginosa_ST463:
+    guide-strain: "NZ_CP064393.1"
 
 pangraph:
   build-opt: "--circular -k minimap2 -s 20 -a 100 -b 5 -l 100"
