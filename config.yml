@@ -1,34 +1,36 @@
 datasets:
-  bpertussis_ST83:
-    guide-strain: "NZ_CP026447.1"
-  ecoli_ST69:
-    guide-strain: "NZ_CP102488.1"
-  ecoli_ST73:
-    guide-strain: "NZ_CP051263.1"
-  ecoli_ST95:
-    guide-strain: "NZ_CP043950.1"
-  kpneumoniae_ST14:
-    guide-strain: "NZ_CP115707.1"
-  kpneumoniae_ST15:
-    guide-strain: "NZ_CP100098.1"
-  kpneumoniae_ST17:
-    guide-strain: "NZ_CP125180.1"
-  kpneumoniae_ST258:
-    guide-strain: "NZ_CP043047.1"
-  kpneumoniae_ST512:
-    guide-strain: "NZ_CP090626.1"
-  mtuberculosis_ST276:
-    guide-strain: "NZ_CP002883.1"
-  saureus_ST1:
-    guide-strain: "NZ_CP019574.1"
-  saureus_ST5:
-    guide-strain: "NC_002758.2"
-  paeruginosa_ST235:
-    guide-strain: "NC_017549.1"
-  paeruginosa_ST111:
-    guide-strain: "NZ_CP086213.1"
-  paeruginosa_ST463:
-    guide-strain: "NZ_CP064393.1"
+  # bpertussis_ST83:
+  #   guide-strain: "NZ_CP026447.1"
+  # ecoli_ST69:
+  #   guide-strain: "NZ_CP102488.1"
+  # ecoli_ST73:
+  #   guide-strain: "NZ_CP051263.1"
+  # ecoli_ST95:
+  #   guide-strain: "NZ_CP043950.1"
+  ecoli_ST131:
+    guide-strain: "NZ_CP096110.2"
+  # kpneumoniae_ST14:
+  #   guide-strain: "NZ_CP115707.1"
+  # kpneumoniae_ST15:
+  #   guide-strain: "NZ_CP100098.1"
+  # kpneumoniae_ST17:
+  #   guide-strain: "NZ_CP125180.1"
+  # kpneumoniae_ST258:
+  #   guide-strain: "NZ_CP043047.1"
+  # kpneumoniae_ST512:
+  #   guide-strain: "NZ_CP090626.1"
+  # mtuberculosis_ST276:
+  #   guide-strain: "NZ_CP002883.1"
+  # saureus_ST1:
+  #   guide-strain: "NZ_CP019574.1"
+  # saureus_ST5:
+  #   guide-strain: "NC_002758.2"
+  # paeruginosa_ST235:
+  #   guide-strain: "NC_017549.1"
+  # paeruginosa_ST111:
+  #   guide-strain: "NZ_CP086213.1"
+  # paeruginosa_ST463:
+  #   guide-strain: "NZ_CP064393.1"
 
 pangraph:
   build-opt: "--circular -k minimap2 -s 20 -a 100 -b 5 -l 100"

@@ -55,6 +55,19 @@ rule FG_block_distr_fig:
             --pangraph {input} --fig {output}
         """
 
+rule FG_large_tree:
+    input:
+        tree=rules.PG_filtered_coregenome_tree.output.nwk
+    output:
+        fig="figs/{dset}/coretree.pdf"
+    conda:
+        "../conda_env/bioinfo.yml"
+    shell:
+        """
+        python3 scripts/pangraph/large_tree.py \
+            --coregenome_tree {input.tree} \
+            --fig {output.fig}
+        """
 
 rule FG_distances:
     input:
@@ -164,6 +177,7 @@ rule FG_all:
         expand(rules.FG_homoplasies.output, dset=dset_names),
         expand(rules.FG_recombination_filter.output, dset=dset_names),
         expand(rules.FG_block_distr_fig.output, dset=dset_names),
+        expand(rules.FG_large_tree.output, dset=dset_names),
         expand(rules.FG_distances.output, dset=dset_names),
         expand(rules.FG_coresynt.output, dset=dset_names),
         expand(rules.FG_circle_synteny.output, dset=dset_names),

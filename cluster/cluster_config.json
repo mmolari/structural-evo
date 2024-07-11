@@ -46,5 +46,17 @@
         "qos": "6hours",
         "n": 10,
         "mem": "40G"
+    },
+    "DST_edge": {
+        "time": "05:50:00",
+        "qos": "6hours",
+        "n": 1,
+        "mem": "4G"
+    },
+    "DST_pangraph": {
+        "time": "05:50:00",
+        "qos": "6hours",
+        "n": 1,
+        "mem": "4G"
     }
 }

@@ -24,16 +24,19 @@ for dset_name, dset_info in dsets_config.items():
 # load accession numbers of excluded isolates
 excluded = {k: [] for k in dset_names}
 for dset_name, dset_info in dsets_config.items():
-    fname = f"datasets/{dset_name.strip()}/excluded.txt"
-    acc_nums = []
-    try:
+    fname = "datasets/" + dset_name +"/excluded.txt"
+    if os.path.exists(fname):
+        excl_acc_nums = []
         with open(fname, "r") as f:
-            acc_nums = f.readlines()
-        acc_nums = [an.strip() for an in acc_nums]
-        acc_nums = [an for an in acc_nums if len(an) > 0]
-    except:
-        pass
-    excluded[dset_name] = acc_nums
+            excl_acc_nums = f.readlines()
+        excl_acc_nums = [an.strip() for an in excl_acc_nums]
+        excl_acc_nums = [an for an in excl_acc_nums if len(an) > 0]
+        A = set(dset_chrom_accnums[dset_name])
+        E = set(excl_acc_nums)
+        dset_chrom_accnums[dset_name] = list(A - E)
+        print(f"{dset_name} : excluded {len(E)} strains: {len(A)} -> {len(dset_chrom_accnums[dset_name])}")
+    else:
+        print(f"{dset_name} : no {fname} file")
 
 
 wildcard_constraints:
@@ -54,6 +57,7 @@ rule all:
         expand(rules.FG_homoplasies.output, dset=dset_names),
         expand(rules.FG_recombination_filter.output, dset=dset_names),
         expand(rules.FG_block_distr_fig.output, dset=dset_names),
+        expand(rules.FG_large_tree.output, dset=dset_names),
         expand(rules.FG_distances.output, dset=dset_names),
         expand(rules.FG_coresynt.output, dset=dset_names),
         expand(rules.FG_circle_synteny.output, dset=dset_names),
