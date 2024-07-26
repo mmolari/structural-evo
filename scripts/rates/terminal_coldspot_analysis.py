@@ -30,7 +30,7 @@ def count_events(path_cats):
     p1, p2 = path_cats
     c1, n1, i1 = p1
     c2, n2, i2 = p2
-    if (len(n1) == 1)  or (len(n2) == 1) or (n1[0] != n2[0]) or (n1[-1] != n2[-1]):
+    if (len(n1) == 1) or (len(n2) == 1) or (n1[0] != n2[0]) or (n1[-1] != n2[-1]):
         n1, n2 = set(n1), set(n2)
         print("WARNING: uncategorized paths")
         print(f"{p1=}")
@@ -39,8 +39,16 @@ def count_events(path_cats):
     assert c2 == 1, f"{c1}, {c2}"
     assert len(i2) == 1
     i2 = i2[0]
+    l1, l2 = len(n1), len(n2)
     n1, n2 = set(n1), set(n2)
 
+    if n1 == n2:
+        if l1 < l2:
+            return i2, "gain", set([])
+        elif l1 > l2:
+            return i2, "loss", set([])
+        else:
+            return i2, "other", set([])
     if n1.issubset(n2):
         return i2, "gain", n2 - n1
     elif n2.issubset(n1):
@@ -98,4 +106,3 @@ if __name__ == "__main__":
 
     edf.to_csv(args.out_events_df)
     cdf.to_csv(args.out_coldspot_df)
-
