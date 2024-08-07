@@ -8,4 +8,5 @@
 /datasets
 /exploration/*/*
 !/exploration/*/*.py
+!/exploration/*/makefile
 __pycache__
