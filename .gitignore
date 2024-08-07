@@ -6,4 +6,6 @@
 /log
 /figs
 /datasets
+/exploration/*/*
+!/exploration/*/*.py
 __pycache__
