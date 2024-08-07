@@ -70,8 +70,8 @@ rule PG_filtered_corealignment:
     conda:
         "../conda_env/bioinfo.yml"
     params:
-        window=1000,
-        max_nsnps=3,
+        window=lambda w: dsets_config[w.dset]["corefilt-window"] if "corefilt-window" in dsets_config[w.dset] else 1000,
+        max_nsnps=lambda w: dsets_config[w.dset]["corefilt-snps"] if "corefilt-snps" in dsets_config[w.dset] else 3,
         guide_strain=lambda w: dsets_config[w.dset]["guide-strain"],
     shell:
         """

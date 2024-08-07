@@ -1,9 +1,9 @@
-joint_graph_fld := results/ST131_ABC/backbone_joints/joints_pangraph
-tree := results/ST131_ABC/pangraph/filtered-coretree.nwk
-jpos := results/ST131_ABC/backbone_joints/joints_pos.json
+joint_graph_fld := results/paeruginosa_ST235/backbone_joints/joints_pangraph
+tree := results/paeruginosa_ST235/pangraph/coretree.nwk
+jpos := results/paeruginosa_ST235/backbone_joints/joints_pos.json
 gbks := data/gbk
-ann := results/ST131_ABC/annotations/junct_pos
-gen_lengths := results/ST131_ABC/pangraph/genome_lengths.csv
+ann := results/paeruginosa_ST235/annotations/junct_pos
+gen_lengths := results/paeruginosa_ST235/pangraph/genome_lengths.csv
 
 
 data:
@@ -40,7 +40,6 @@ res/%/annotations.pdf: res/%/gbk_annotations.csv res/%/tool_annotations.csv res/
 LAB := \
 	EBPKATYDVF_r__HFYDQJUCFM_f \
 	MVIUGRLZNX_r__QHNTPCOKJC_r \
-
 	
 
 TGTS := $(foreach lab,$(LAB),res/$(lab)/annotations.pdf)

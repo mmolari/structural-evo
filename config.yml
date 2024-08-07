@@ -1,4 +1,52 @@
 datasets:
+  sflexneri_test:
+    guide-strain: "NC_004337.2"
+  # psyr_1:
+  #   guide-strain: "208-2"
+  #   corefilt-window: 100
+  #   corefilt-snps: 3
+  # psyr_2:
+  #   guide-strain: "174-1"
+  #   corefilt-window: 100
+  #   corefilt-snps: 3
+  # psyr_3:
+  #   guide-strain: "174-1"
+  #   corefilt-window: 100
+  #   corefilt-snps: 3
+  # psyr_psa3pan:
+  #   guide-strain: "157-1"
+  #   corefilt-window: 100
+  #   corefilt-snps: 3
+  # psyr_psa3pan_res:
+  #   guide-strain: "157-1"
+  #   corefilt-window: 100
+  #   corefilt-snps: 3
+  # psyr_pth:
+  #   guide-strain: "218-2"
+  #   corefilt-window: 100
+  #   corefilt-snps: 3
+  # psyr_psa16:
+  #   guide-strain: "280-5"
+  #   corefilt-window: 100
+  #   corefilt-snps: 3
+  # psyr_psa2:
+  #   guide-strain: "40-2"
+  #   corefilt-window: 100
+  #   corefilt-snps: 3
+  # psyr_psa32:
+  #   guide-strain: "40-2"
+  #   corefilt-window: 100
+  #   corefilt-snps: 3
+  # hpylori_none:
+  #   guide-strain: "NZ_CP036387.1"
+  # hpylori_ST3020:
+  #   guide-strain: "NZ_CP024072.1"
+  # spneumoniae_180:
+  #   guide-strain: "NZ_CP090884.1"
+  # spyogenes_28:
+  #   guide-strain: "NZ_CP040997.1"
+  # spyogenes_52:
+  #   guide-strain: "NZ_CP031632.1"
   # bpertussis_ST83:
   #   guide-strain: "NZ_CP026447.1"
   # ecoli_ST69:
@@ -7,8 +55,8 @@ datasets:
   #   guide-strain: "NZ_CP051263.1"
   # ecoli_ST95:
   #   guide-strain: "NZ_CP043950.1"
-  ecoli_ST131:
-    guide-strain: "NZ_CP096110.2"
+  # ecoli_ST131:
+  #   guide-strain: "NZ_CP096110.2"
   # kpneumoniae_ST14:
   #   guide-strain: "NZ_CP115707.1"
   # kpneumoniae_ST15:
