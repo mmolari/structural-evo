@@ -1,6 +1,6 @@
 datasets:
-  sflexneri_test:
-    guide-strain: "NC_004337.2"
+  # sflexneri_test:
+  #   guide-strain: "NC_004337.2"
   # psyr_1:
   #   guide-strain: "208-2"
   #   corefilt-window: 100
@@ -9,18 +9,18 @@ datasets:
   #   guide-strain: "174-1"
   #   corefilt-window: 100
   #   corefilt-snps: 3
-  # psyr_3:
-  #   guide-strain: "174-1"
-  #   corefilt-window: 100
-  #   corefilt-snps: 3
-  # psyr_psa3pan:
-  #   guide-strain: "157-1"
-  #   corefilt-window: 100
-  #   corefilt-snps: 3
-  # psyr_psa3pan_res:
-  #   guide-strain: "157-1"
-  #   corefilt-window: 100
-  #   corefilt-snps: 3
+  psyr_3:
+    guide-strain: "174-1"
+    corefilt-window: 100
+    corefilt-snps: 3
+  psyr_psa3pan:
+    guide-strain: "157-1"
+    corefilt-window: 100
+    corefilt-snps: 3
+  psyr_psa3pan_res:
+    guide-strain: "157-1"
+    corefilt-window: 100
+    corefilt-snps: 3
   # psyr_pth:
   #   guide-strain: "218-2"
   #   corefilt-window: 100
@@ -33,10 +33,10 @@ datasets:
   #   guide-strain: "40-2"
   #   corefilt-window: 100
   #   corefilt-snps: 3
-  # psyr_psa32:
-  #   guide-strain: "40-2"
-  #   corefilt-window: 100
-  #   corefilt-snps: 3
+  psyr_psa32:
+    guide-strain: "40-2"
+    corefilt-window: 100
+    corefilt-snps: 3
   # hpylori_none:
   #   guide-strain: "NZ_CP036387.1"
   # hpylori_ST3020:
@@ -73,8 +73,8 @@ datasets:
   #   guide-strain: "NZ_CP019574.1"
   # saureus_ST5:
   #   guide-strain: "NC_002758.2"
-  # paeruginosa_ST235:
-  #   guide-strain: "NC_017549.1"
+  paeruginosa_ST235:
+    guide-strain: "NC_017549.1"
   # paeruginosa_ST111:
   #   guide-strain: "NZ_CP086213.1"
   # paeruginosa_ST463:

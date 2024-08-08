@@ -50,6 +50,7 @@ include: "rules/distances.smk"
 include: "rules/backbone_joints.smk"
 include: "rules/annotations.smk"
 include: "rules/rates.smk"
+include: "rules/hotspots.smk"
 include: "rules/figs.smk"
 
 rule all:

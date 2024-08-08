@@ -17,6 +17,8 @@ def parse_args():
     parser.add_argument("--out_gbk", type=str)
     parser.add_argument("--out_tools", type=str)
     parser.add_argument("--gbk_fld", type=str)
+    parser.add_argument("--genome_len", type=str)
+    parser.add_argument("--joint_pos", type=str)
     return parser.parse_args()
 
 
@@ -133,8 +135,7 @@ def isin(Js, Je, pos):
         return (Js <= pos) or (pos < Je)
 
 
-def extract_features(record, Jb, Je, Js, L):
-    iso = record.id
+def extract_features(record, iso, Jb, Je, Js, L):
     A = []
     for feat in record.features:
         Ab = feat.location.start
@@ -188,8 +189,8 @@ def parse_gbk_annotations(Ls, jpos, gbk_fld):
         record = parse_genbank(fname)
         Jb, _, _, Je, Js = jpos[iso]
         L = Ls[iso]
-        assert record.id == iso
-        A = extract_features(record, Jb, Je, Js, L)
+        # assert record.id == iso, f"{record.id=}, {iso=}"
+        A = extract_features(record, iso, Jb, Je, Js, L)
         As.append(A)
     As = pd.concat(As)
     As.reset_index(inplace=True, drop=True)
@@ -222,21 +223,18 @@ if __name__ == "__main__":
 
     # load data
     dfs = load_tools_ann(args)
-    Ls = pd.read_csv("data/genome_lengths.csv", index_col=0)["length"].to_dict()
-    with open("data/joints_pos.json", "r") as f:
+    Ls = pd.read_csv(args.genome_len, index_col=0)["length"].to_dict()
+    with open(args.joint_pos, "r") as f:
         jpos = json.load(f)[hs]
-
-    res_fld = pathlib.Path(f"res/{hs}")
-    res_fld.mkdir(exist_ok=True, parents=True)
 
     # parse tool annotations
     ann_df = extract_tool_annotations(dfs, Ls)
     ann_df = set_cols_if_empty(ann_df)
-    ann_df.to_csv(res_fld / "tool_annotations.csv", index=False)
+    ann_df.to_csv(args.out_tools, index=False)
 
     # parse genbank annotations
     ann_gbk_df = parse_gbk_annotations(Ls, jpos, gbk_fld)
     ann_gbk_df = set_cols_if_empty(ann_gbk_df)
-    ann_gbk_df.to_csv(res_fld / "gbk_annotations.csv", index=False)
+    ann_gbk_df.to_csv(args.out_gbk, index=False)
 
 # %%

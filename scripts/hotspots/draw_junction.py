@@ -115,6 +115,11 @@ def mark_tool_ann(ax, tdf, strain_y):
             zorder=-1,
         )
 
+        if row.kind == "defensefinder":
+            x = 0.5*(row.end + row.start)
+            ax.text(gx, y-0.5, row.idx, fontsize=10, va="center", ha="center", color="olive")
+        
+
 
 def mark_blocks(ax, strain_y, pan, block_colors):
 
