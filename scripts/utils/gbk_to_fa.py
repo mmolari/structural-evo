@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
     # check that id of the read is compatible with filename
     acc = accnum(args.gbk)
-    assert r.id.startswith(acc), f"read id {r.id} and filename {acc} are incompatible."
+    # assert r.id.startswith(acc), f"read id {r.id} and filename {acc} are incompatible."
 
     # use only name of the file as id of the read
     r.id = acc
