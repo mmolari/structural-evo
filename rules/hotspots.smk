@@ -144,6 +144,12 @@ def HS_all_plots(wildcards):
         # select edges
         mask = df["df"] > 0
         edges = df[mask].index.to_list()
+        edges += df.sort_values("n_categories", ascending=False).index[:5].to_list()
+        edges += df.sort_values("pangenome_len", ascending=False).index[:3].to_list()
+        edges += df.sort_values("gm", ascending=False).index[:3].to_list()
+        edges += df.sort_values("is", ascending=False).index[:3].to_list()
+        edges += df.sort_values("df_hmm", ascending=False).index[:5].to_list()
+        edges = list(set(edges))
         # add desired output files
         files += expand(rules.HS_plot.output, edge=edges, **wc)
     return files
