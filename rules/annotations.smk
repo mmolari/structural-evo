@@ -107,8 +107,6 @@ rule IF_summary:
         fi
         """
 
-        
-
 
 rule IF_preformat:
     input:
@@ -189,6 +187,7 @@ rule Dfinder_find:
         a=directory("data/defense_finder/{acc}"),
         g="data/defense_finder/{acc}/{acc}_defense_finder_genes.tsv",
         s="data/defense_finder/{acc}/{acc}_defense_finder_systems.tsv",
+        h="data/defense_finder/{acc}/{acc}_defense_finder_hmmer.tsv",
         p="data/defense_finder/{acc}/{acc}.prt",
     conda:
         "../conda_env/defensefinder.yml"
@@ -218,21 +217,58 @@ rule Dfinder_gene_location:
         """
 
 
+rule Dfinder_hmm_location:
+    input:
+        h=rules.Dfinder_find.output.h,
+        p=rules.Dfinder_find.output.p,
+    output:
+        temp("data/defense_finder/{acc}/{acc}_hmm_loc.tsv"),
+    conda:
+        "../conda_env/bioinfo.yml"
+    shell:
+        """
+        python3 scripts/annotations/defensefinder_hmm_location.py \
+            --input_hmm_df {input.h} \
+            --proteins {input.p} \
+            --output_hmm_df {output}
+        """
+
+
 rule Dfinder_summary:
     input:
         s=lambda w: expand(rules.Dfinder_find.output.s, acc=dset_chrom_accnums[w.dset]),
         g=lambda w: expand(
             rules.Dfinder_gene_location.output, acc=dset_chrom_accnums[w.dset]
         ),
+        h=lambda w: expand(
+            rules.Dfinder_hmm_location.output, acc=dset_chrom_accnums[w.dset]
+        ),
     output:
         s="results/{dset}/annotations/defense_finder/systems_summary.tsv",
         g="results/{dset}/annotations/defense_finder/genes_summary.tsv",
+        h="results/{dset}/annotations/defense_finder/hmm_summary.tsv",
     conda:
         "../conda_env/bioinfo.yml"
     shell:
         """
         tsv-append -H {input.s} > {output.s}
         tsv-append -H {input.g} > {output.g}
+        tsv-append -H {input.h} > {output.h}
+        """
+
+
+rule Dfinder_hmm_preformat:
+    input:
+        h=rules.Dfinder_summary.output.h,
+    output:
+        "results/{dset}/annotations/loc/defensefinder_hmm.csv",
+    conda:
+        "../conda_env/bioinfo.yml"
+    shell:
+        """
+        python3 scripts/annotations/dfinder_hmm_preformat.py \
+            --input_hmm {input.h} \
+            --output_df {output}
         """
 
 
@@ -258,6 +294,7 @@ zero_based_tools = {
     "genomad": False,
     "integronfinder": False,  # to be checked
     "defensefinder": False,  # to be checked
+    "dfinder_hmm": False,
 }
 
 
@@ -293,6 +330,15 @@ rule AN_all:
         expand(
             rules.AN_assign_positions.output,
             dset=dset_names,
-            tool=["ISEScan", "genomad", "integronfinder", "defensefinder"],
-            K=["rand", "real"],
+            tool=[
+                "ISEScan",
+                "genomad",
+                "integronfinder",
+                "defensefinder",
+                "dfinder_hmm",
+            ],
+            K="real",
         ),
+
+
+# K=["rand", "real"],
