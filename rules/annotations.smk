@@ -261,7 +261,7 @@ rule Dfinder_hmm_preformat:
     input:
         h=rules.Dfinder_summary.output.h,
     output:
-        "results/{dset}/annotations/loc/defensefinder_hmm.csv",
+        "results/{dset}/annotations/loc/dfinder_hmm.csv",
     conda:
         "../conda_env/bioinfo.yml"
     shell:
