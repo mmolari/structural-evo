@@ -227,10 +227,10 @@ rule Dfinder_hmm_location:
         "../conda_env/bioinfo.yml"
     shell:
         """
-        python3 scripts/annotations/defensefinder_hmm_location.py \
-            --input_hmm_df {input.h} \
+        python3 scripts/annotations/defensefinder_gene_location.py \
+            --input_gene_df {input.h} \
             --proteins {input.p} \
-            --output_hmm_df {output}
+            --output_gene_df {output}
         """
 
 
