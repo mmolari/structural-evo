@@ -26,10 +26,13 @@ def parse_args():
     return parser.parse_args()
 
 
-def despine(ax):
+def despine(ax, y=True):
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-
+    if not y:
+        ax.spines["left"].set_visible(False)
+        ax.set_yticks([])
+        ax.set_ylabel("")
 
 def load_data(args):
     # load tree
@@ -77,7 +80,7 @@ def draw_gene(ax, b, e, y, strand, w=1, c="black", arr_l=100):
 
 def draw_genes(ax, gdf, strain_y):
 
-    colors = {"CDS": "black", "tRNA": "orange", "ncRNA": "green", "tmRNA": "orange"}
+    colors = {"CDS": "black", "tRNA": "orange", "ncRNA": "green", "tmRNA": "orange", "rRNA": "cyan"}
 
     for i, row in gdf.iterrows():
         b, e, strand = row.start, row.end, row.strand
@@ -97,6 +100,7 @@ def mark_tool_ann(ax, tdf, strain_y):
     colors = {
         "ISEScan": "C0",
         "defensefinder": "C2",
+        "dfinder_hmm": "palegreen",
         "integronfinder": "C3",
         "genomad": "C4",
     }
@@ -114,6 +118,11 @@ def mark_tool_ann(ax, tdf, strain_y):
             height=0.5,
             zorder=-1,
         )
+
+        if row.kind == "defensefinder":
+            x = 0.5*(row.end + row.start)
+            ax.text(x, y, row.idx, fontsize=4, va="center", ha="center", color="darkgreen")
+        
 
 
 def mark_blocks(ax, strain_y, pan, block_colors):
@@ -145,6 +154,22 @@ def mark_blocks(ax, strain_y, pan, block_colors):
                 zorder=-1,
             )
 
+def create_fig(n, L):
+    X = max(24, L/3000)
+    Y = n / 8
+    fig, axs = plt.subplots(
+        1, 2, figsize=(X, Y), sharey=True, gridspec_kw={"width_ratios": [1, 10]}
+    )
+    return fig, axs
+
+def draw_tree(tree, ax):
+    Phylo.draw(
+        tree, axes=ax, do_show=False, show_confidence=False, label_func=lambda x: ""
+    )
+    for n, l in enumerate(tree.get_terminals()):
+        y = n+1
+        d = tree.distance(tree.root, l)
+        ax.text(d, y, l.name, fontsize=3, va="center", ha="left") 
 
 if __name__ == "__main__":
     args = parse_args()
@@ -161,15 +186,13 @@ if __name__ == "__main__":
     block_colors[Bs[0]] = left_clr
     block_colors[Bs[-1]] = right_clr
 
-    fig, axs = plt.subplots(
-        1, 2, figsize=(24, 20), sharey=True, gridspec_kw={"width_ratios": [1, 10]}
-    )
+    L = max(max(p.block_positions) for p in pan.paths)
+
+    fig, axs = create_fig(len(strain_y), L)
 
     ax = axs[0]
-    Phylo.draw(
-        tree, axes=ax, do_show=False, show_confidence=False, label_func=lambda x: ""
-    )
-    despine(ax)
+    draw_tree(tree, ax)
+    despine(ax, y=False)
     ax.set_xlabel("branch length")
     ax.set_ylabel("isolates")
 
@@ -184,15 +207,11 @@ if __name__ == "__main__":
     plt.savefig(args.fig_ann)
     plt.close()
 
-    fig, axs = plt.subplots(
-        1, 2, figsize=(24, 20), sharey=True, gridspec_kw={"width_ratios": [1, 10]}
-    )
+    fig, axs = create_fig(len(strain_y), L)
 
     ax = axs[0]
-    Phylo.draw(
-        tree, axes=ax, do_show=False, show_confidence=False, label_func=lambda x: ""
-    )
-    despine(ax)
+    draw_tree(tree, ax)
+    despine(ax, y=False)
 
     ax = axs[1]
     draw_genes(ax, gdf, strain_y)

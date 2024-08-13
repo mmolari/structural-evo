@@ -3,6 +3,12 @@ datasets:
     guide-strain: "NC_004337.2"
   paeruginosa_ST235:
     guide-strain: "NC_017549.1"
+  kpneumoniae_ST258:
+    guide-strain: "NZ_CP043047.1"
+  mtuberculosis_ST276:
+    guide-strain: "NZ_CP002883.1"
+  saureus_ST5:
+    guide-strain: "NC_002758.2"
   # psyr_1:
   #   guide-strain: "208-2"
   #   corefilt-window: 100
