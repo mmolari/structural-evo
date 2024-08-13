@@ -70,11 +70,19 @@ rule HS_plot:
 
 def HS_all_plots(wildcards):
     files = []
-    for dset, opt in itt.product(dset_names, kernel_opts):
+    for dset in dset_names:
         wc = {"dset": dset}
         # define list of edges
-        edge_count_file = checkpoints.BJ_extract_joints_df.get(**wc).output["dfc"]
-        edges = read_edge_count(edge_count_file)
+        df_file = checkpoints.HS_dataframe.get(**wc).output["df"]
+        df = pd.read_csv(df_file, index_col=0)
+        # select edges
+        mask = df["df"] > 0
+        edges = df[mask].index.to_list()
+        edges += df.sort_values("n_categories", ascending=False).index[:5].to_list()
+        edges += df.sort_values("pangenome_len", ascending=False).index[:3].to_list()
+        edges += df.sort_values("gm", ascending=False).index[:3].to_list()
+        edges += df.sort_values("is", ascending=False).index[:3].to_list()
+        edges = list(set(edges))
         # add desired output files
         files += expand(rules.HS_plot.output, edge=edges, **wc)
     return files
