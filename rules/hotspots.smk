@@ -109,6 +109,21 @@ rule HS_extract_annotations:
             --joint_pos {input.j_pos}
         """
 
+rule HS_extract_positions:
+    input:
+        pos=rules.BJ_extract_joints_pos.output.pos,
+    output:
+        pos="results/{dset}/hotspots/hs/{edge}/positions_on_genomes.csv"
+    conda:
+        "../conda_env/bioinfo.yml"
+    shell:
+        """
+        python3 scripts/hotspots/extract_joint_positions.py \
+            --jpos {input.pos} \
+            --edge {wildcards.edge} \
+            --out {output.pos}
+        """
+
 
 rule HS_plot:
     input:
@@ -152,6 +167,7 @@ def HS_all_plots(wildcards):
         edges = list(set(edges))
         # add desired output files
         files += expand(rules.HS_plot.output, edge=edges, **wc)
+        files += expand(rules.HS_extract_positions.output, edge=edges, **wc)
     return files
 
 
