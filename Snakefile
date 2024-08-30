@@ -9,6 +9,15 @@ os.makedirs("log", exist_ok=True)
 configfile: "config.yml"
 
 
+def load_acc_nums(dset_name):
+    fname = "datasets/" + dset_name + "/acc_nums.txt"
+    with open(fname) as f:
+        accnums = f.read().splitlines()
+    # remove empty lines and strip whitespaces
+    accnums = [acc.strip() for acc in accnums if acc.strip()]
+    return accnums
+
+
 # load config file entries
 dsets_config = config["datasets"]
 dset_names = list(dsets_config.keys())
@@ -16,27 +25,9 @@ dset_names = list(dsets_config.keys())
 # read accession numbers from dataset files
 dset_chrom_accnums = {}
 for dset_name, dset_info in dsets_config.items():
-    fname = "datasets/" + dset_name + "/assembly_to_chrom.tsv"
-    df = pd.read_csv(fname, sep="\t")
-    acc_nums = df["chromosome_acc"].tolist()
-    dset_chrom_accnums[dset_name] = acc_nums
+    dset_chrom_accnums[dset_name] = load_acc_nums(dset_name)
 
-# load accession numbers of excluded isolates
-excluded = {k: [] for k in dset_names}
-for dset_name, dset_info in dsets_config.items():
-    fname = "datasets/" + dset_name +"/excluded.txt"
-    if os.path.exists(fname):
-        excl_acc_nums = []
-        with open(fname, "r") as f:
-            excl_acc_nums = f.readlines()
-        excl_acc_nums = [an.strip() for an in excl_acc_nums]
-        excl_acc_nums = [an for an in excl_acc_nums if len(an) > 0]
-        A = set(dset_chrom_accnums[dset_name])
-        E = set(excl_acc_nums)
-        dset_chrom_accnums[dset_name] = list(A - E)
-        print(f"{dset_name} : excluded {len(E)} strains: {len(A)} -> {len(dset_chrom_accnums[dset_name])}")
-    else:
-        print(f"{dset_name} : no {fname} file")
+print("Datasets:", dset_names)
 
 
 wildcard_constraints:
@@ -44,7 +35,19 @@ wildcard_constraints:
     acc=r"[^/]+",
 
 
-include: "rules/downloads.smk"
+rule gbk_to_fa:
+    input:
+        gbk="data/gbk/{acc}.gbk",
+    output:
+        fa="data/fa/{acc}.fa",
+    conda:
+        "../conda_env/bioinfo.yml"
+    shell:
+        """
+        python3 scripts/utils/gbk_to_fa.py --gbk {input.gbk} --fa {output.fa}
+        """
+
+
 include: "rules/pangraph.smk"
 include: "rules/distances.smk"
 include: "rules/backbone_joints.smk"
@@ -52,6 +55,7 @@ include: "rules/annotations.smk"
 include: "rules/rates.smk"
 include: "rules/hotspots.smk"
 include: "rules/figs.smk"
+
 
 rule all:
     input:
@@ -67,7 +71,7 @@ rule all:
         expand(rules.FG_junctions_ann.output, dset=dset_names),
         expand(rules.FG_rates.output, dset=dset_names),
 
+
 localrules:
-    download_gbk,
     Dfinder_models_download,
     GM_download_db,
